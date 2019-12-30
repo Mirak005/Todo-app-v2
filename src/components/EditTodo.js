@@ -34,7 +34,8 @@ class EditTodo extends React.Component {
       this.setState({ editTodo: "", showModal: false });
       this.props.editTodo({
         id: this.props.todo.id,
-        label: this.state.editTodo
+        label: this.state.editTodo,
+        
       });
     }
   };

@@ -35,7 +35,7 @@ const todoReducer = (state = initState, action) => {
         ...state,
         todos: state.todos.map(todo =>
           todo.id === action.edit.id
-            ? { ...todo, label: action.edit.label, isComplete: false }
+            ? { ...todo, label: action.edit.label, isComplete: false}
             : todo
         )
       };
