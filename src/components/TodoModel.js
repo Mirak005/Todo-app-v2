@@ -1,11 +1,32 @@
 import React from "react";
-import EditTodo from "./EditTodo";
-import { completeTodo, deleteTodo } from "./actions";
+import { completeTodo, deleteTodo, editTodo, saveEditTodo } from "./actions";
 import { connect } from "react-redux";
 
-function TodoModel({ todo, completeTodo = () => {}, deleteTodo = () => {} }) {
+function TodoModel({
+  todo,
+  completeTodo,
+  deleteTodo,
+  saveEditTodo,
+  editTodo,
+  editInput,
+  editedId
+}) {
+  const handleEdit = () => {
+    //Lift the old todo , id  and reset it status isComplete
+    saveEditTodo({ editedId: todo.id, editInput: todo.label });
+  };
+  const handleConfirmEdit = () => {
+    //Check if the modification is not empty else get back the old todo
+    editInput.trim()
+      ? editTodo(todo.id)
+      : saveEditTodo({ editedId: null, editInput: "" });
+  };
+
   return (
-    <li key={todo.id} className="list-group-item">
+    <li
+      key={todo.id}
+      className="row d-flex align-items-baseline list-group-item"
+    >
       <div className="col-1.7">
         <button
           className="btn-lg bg-light todo-btn"
@@ -22,9 +43,27 @@ function TodoModel({ todo, completeTodo = () => {}, deleteTodo = () => {} }) {
           Delete
         </button>
       </div>
-      <EditTodo todo={todo} />
+      <button
+        className="btn-lg bg-light todo-btn "
+        onClick={editedId ? handleConfirmEdit : handleEdit}
+      >
+        {editedId ? "Confirm" : "Edit"}
+      </button>
       <div className="col-2">
-        <h2 className={todo.isComplete ? "todo-label" : ""}>{todo.label}</h2>
+        <input
+          onChange={e =>
+            saveEditTodo({ editInput: e.target.value, editedId: todo.id })
+          }
+          className={
+            todo.isComplete
+              ? `${
+                  editedId ? "" : "border-0"
+                } font-weight-bold form-control-lg  todo-label`
+              : `${editedId ? "" : "border-0"} font-weight-bold form-control-lg`
+          }
+          value={editedId ? editInput : todo.label}
+          readOnly={!editedId}
+        />
       </div>
     </li>
   );
@@ -32,14 +71,16 @@ function TodoModel({ todo, completeTodo = () => {}, deleteTodo = () => {} }) {
 const mapDispatchToProps = dispatch => {
   return {
     completeTodo: key => dispatch(completeTodo(key)),
-    deleteTodo: id => dispatch(deleteTodo(id))
+    deleteTodo: id => dispatch(deleteTodo(id)),
+    saveEditTodo: todo => dispatch(saveEditTodo(todo)),
+    editTodo: id => dispatch(editTodo(id))
   };
 };
 
 const mapStateToProps = state => {
   return {
-    input: state.input,
-    todos: state.todos
+    editInput: state.editInput,
+    editedId: state.editedId
   };
 };
 
