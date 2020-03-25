@@ -31,7 +31,7 @@ const AddToDo = ({ input, saveTodo, addTodo }) => {
         <button
           // add the new todo , and prevent the empty input
           onClick={() =>
-            input.trim()
+            !input.trim()
               ? alert("Enter a valid task")
               : addTodo({
                   label: input,
