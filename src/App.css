@@ -35,7 +35,7 @@ h2 {
   margin: 0px 20px;
   width: max-content;
 }
-.todo-label{
+.todo-label {
   text-decoration: line-through;
 }
 
@@ -53,8 +53,6 @@ h5 {
   display: inherit !important;
 }
 
-button{
-  outline: 0!important;
+button {
+  outline: 0 !important;
 }
-
-

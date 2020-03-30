@@ -22,6 +22,12 @@ function TodoModel({
       : saveEditTodo({ editedId: null, editInput: "" });
   };
 
+  const handleDelete = id => {
+    if (window.confirm("Are you sure you want to delete this todo ?")) {
+      deleteTodo(id);
+    }
+  };
+
   return (
     <li
       key={todo.id}
@@ -38,14 +44,14 @@ function TodoModel({
       <div className="col-1.7">
         <button
           className="btn-lg bg-light todo-btn "
-          onClick={() => deleteTodo(todo.id)}
+          onClick={() => handleDelete(todo.id)}
         >
           Delete
         </button>
       </div>
       <button
         className="btn-lg bg-light todo-btn "
-        onClick={editedId===todo.id ? handleConfirmEdit : handleEdit}
+        onClick={editedId === todo.id ? handleConfirmEdit : handleEdit}
       >
         {editedId === todo.id ? "Confirm" : "Edit"}
       </button>
