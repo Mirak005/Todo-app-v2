@@ -45,9 +45,9 @@ function TodoModel({
       </div>
       <button
         className="btn-lg bg-light todo-btn "
-        onClick={editedId ? handleConfirmEdit : handleEdit}
+        onClick={editedId===todo.id ? handleConfirmEdit : handleEdit}
       >
-        {editedId ? "Confirm" : "Edit"}
+        {editedId === todo.id ? "Confirm" : "Edit"}
       </button>
       <div className="col-2">
         <input
@@ -57,12 +57,14 @@ function TodoModel({
           className={
             todo.isComplete
               ? `${
-                  editedId ? "" : "border-0"
+                  editedId === todo.id ? "" : "border-0"
                 } font-weight-bold form-control-lg  todo-label`
-              : `${editedId ? "" : "border-0"} font-weight-bold form-control-lg`
+              : `${
+                  editedId === todo.id ? "" : "border-0"
+                } font-weight-bold form-control-lg`
           }
-          value={editedId ? editInput : todo.label}
-          readOnly={!editedId}
+          value={editedId === todo.id ? editInput : todo.label}
+          readOnly={!editedId === todo.id}
         />
       </div>
     </li>
